@@ -22,8 +22,13 @@ function App() {
   const [isRelaxing, setIsRelaxing] = useState(false);
 
   function setNextBodyPart() {
-    setPartIndex(partIndex + 1);
+    if (isRelaxing) setPartIndex(partIndex + 1);
     setIsRelaxing(!isRelaxing);
+  }
+
+  function startSession() {
+    setPartIndex(0);
+    setIsSessionEnd(false);
   }
 
   function endSession() {
@@ -40,6 +45,7 @@ function App() {
       <Timer
         timeLeft={isRelaxing ? relaxingTime : activationTime}
         allTimeLeft={bodyParts.length * (activationTime + relaxingTime + 2) - 1}
+        onTimerStart={startSession}
         onTimerUpdate={setNextBodyPart}
         onTimerEnd={endSession}
       />

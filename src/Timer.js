@@ -8,6 +8,9 @@ function Timer(props) {
   const savedOnTimerEnd = useRef();
 
   function startTimer() {
+    props.onTimerStart();
+    setTime(props.timeLeft);
+    setAllTime(props.allTimeLeft);
     turnOn(true);
   }
 
