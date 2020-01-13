@@ -39,10 +39,7 @@ function App() {
     <div className="App">
       <Timer
         timeLeft={isRelaxing ? relaxingTime : activationTime}
-        allTimeLeft={
-          (bodyParts.length + 1) * (activationTime + relaxingTime) +
-          relaxingTime
-        }
+        allTimeLeft={bodyParts.length * (activationTime + relaxingTime + 2) - 1}
         onTimerUpdate={setNextBodyPart}
         onTimerEnd={endSession}
       />
