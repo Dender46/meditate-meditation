@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Sound from "react-sound";
 import Timer from "./Timer";
 
 const bodyParts = [
@@ -21,9 +22,14 @@ function App() {
   const [partIndex, setPartIndex] = useState(0);
   const [isRelaxing, setIsRelaxing] = useState(false);
 
-  function setNextBodyPart() {
+  const [shouldPlaySound, playSound] = useState(false);
+
+  function onTimerUpdate() {
     if (isRelaxing) setPartIndex(partIndex + 1);
     setIsRelaxing(!isRelaxing);
+
+    playSound(false);
+    playSound(true);
   }
 
   function startSession() {
@@ -42,11 +48,15 @@ function App() {
 
   return (
     <div className="App">
+      <Sound
+        url="beep.wav"
+        playStatus={shouldPlaySound && Sound.status.PLAYING}
+      />
       <Timer
         timeLeft={isRelaxing ? relaxingTime : activationTime}
         allTimeLeft={bodyParts.length * (activationTime + relaxingTime + 2) - 1}
         onTimerStart={startSession}
-        onTimerUpdate={setNextBodyPart}
+        onTimerUpdate={onTimerUpdate}
         onTimerEnd={endSession}
       />
       {statusText}
