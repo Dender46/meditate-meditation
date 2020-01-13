@@ -4,17 +4,17 @@ import Timer from "./Timer";
 const bodyParts = [
   "forearm",
   "shoulder",
-  "calves"
-  // "hip",
-  // "stomach",
-  // "chest",
-  // "neck",
-  // "lips",
-  // "eyebrows",
-  // "forehead"
+  "calves",
+  "hip",
+  "stomach",
+  "chest",
+  "neck",
+  "lips",
+  "eyebrows",
+  "forehead"
 ];
-const activationTime = 1;
-const relaxingTime = 2;
+const activationTime = 5;
+const relaxingTime = 15;
 
 function App() {
   const [isSessionEnd, setIsSessionEnd] = useState(false);
