@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sound from "react-sound";
+import styled from "styled-components";
 import Timer from "./Timer";
 
 const bodyParts = [
@@ -18,6 +19,12 @@ const activationTime = 5;
 const relaxingTime = 15;
 
 function App() {
+  const App = styled.div`
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(20deg, rgb(219, 112, 147), rgb(218, 163, 87));
+  `;
+
   const [isSessionEnd, setIsSessionEnd] = useState(false);
   const [partIndex, setPartIndex] = useState(0);
   const [isRelaxing, setIsRelaxing] = useState(false);
@@ -47,7 +54,7 @@ function App() {
   else statusText = <p>Activate {bodyParts[partIndex]} muscles</p>;
 
   return (
-    <div className="App">
+    <App>
       <Sound
         url="beep.wav"
         playStatus={shouldPlaySound && Sound.status.PLAYING}
@@ -60,7 +67,7 @@ function App() {
         onTimerEnd={endSession}
       />
       {statusText}
-    </div>
+    </App>
   );
 }
 
