@@ -1,3 +1,4 @@
+import useInterval from "@use-it/interval";
 import React, { useEffect, useRef, useState } from "react";
 
 function Timer(props) {
@@ -20,30 +21,25 @@ function Timer(props) {
     savedOnTimerEnd.current = props.onTimerEnd;
   }, [props.onTimerUpdate, props.onTimerEnd]);
 
-  useEffect(() => {
+  useInterval(() => {
     if (!isOn) return;
 
-    setTimeout(() => {
-      if (time === 0) {
-        savedOnTimerUpdate.current();
-        return;
-      }
-      setTime(time - 1);
-    }, 1000);
-  }, [time, isOn]);
+    setTime(time - 1);
+    setAllTime(allTime - 1);
 
-  useEffect(() => {
-    if (!isOn) return;
+    if (time === 0) {
+      savedOnTimerUpdate.current();
 
-    setTimeout(() => {
       if (allTime === 0) {
         turnOn(false);
+        setTime(0);
+        setAllTime(0);
         savedOnTimerEnd.current();
         return;
       }
-      setAllTime(allTime - 1);
-    }, 1000);
-  }, [allTime, isOn]);
+      return;
+    }
+  }, 1000);
 
   // this gets called when props are changed after call of saveOnTimerUpdate.current()
   useEffect(() => {
