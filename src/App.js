@@ -18,25 +18,25 @@ const bodyParts = [
 const activationTime = 5;
 const relaxingTime = 15;
 
-function App() {
-  const App = styled.div`
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(20deg, rgb(219, 112, 147), rgb(218, 163, 87));
-  `;
+const StyledApp = styled.div`
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(20deg, rgb(219, 112, 147), rgb(218, 163, 87));
+`;
 
+function App() {
   const [isSessionEnd, setIsSessionEnd] = useState(false);
   const [partIndex, setPartIndex] = useState(0);
   const [isRelaxing, setIsRelaxing] = useState(false);
 
-  const [shouldPlaySound, playSound] = useState(false);
+  const [isPlayingSound, setIsPlayingSound] = useState(Sound.status.PAUSED);
 
   function onTimerUpdate() {
     if (isRelaxing) setPartIndex(partIndex + 1);
     setIsRelaxing(!isRelaxing);
 
-    playSound(false);
-    playSound(true);
+    setIsPlayingSound(Sound.status.PAUSED);
+    setIsPlayingSound(Sound.status.PLAYING);
   }
 
   function startSession() {
@@ -54,11 +54,8 @@ function App() {
   else statusText = <p>Activate {bodyParts[partIndex]} muscles</p>;
 
   return (
-    <App>
-      <Sound
-        url="beep.wav"
-        playStatus={shouldPlaySound && Sound.status.PLAYING}
-      />
+    <StyledApp>
+      <Sound url="beep.wav" playStatus={isPlayingSound} />
       <Timer
         timeLeft={isRelaxing ? relaxingTime : activationTime}
         allTimeLeft={bodyParts.length * (activationTime + relaxingTime + 2) - 1}
@@ -67,7 +64,7 @@ function App() {
         onTimerEnd={endSession}
       />
       {statusText}
-    </App>
+    </StyledApp>
   );
 }
 
