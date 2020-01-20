@@ -15,7 +15,7 @@ const bodyParts = [
   "eyebrows",
   "forehead"
 ];
-const activationTime = 5;
+const activationTime = 10;
 const relaxingTime = 15;
 
 const StyledApp = styled.div`
@@ -32,8 +32,7 @@ function App() {
   const [isPlayingSound, setIsPlayingSound] = useState(Sound.status.PAUSED);
 
   function onTimerUpdate() {
-    if (isRelaxing) setPartIndex(partIndex + 1);
-    setIsRelaxing(!isRelaxing);
+    setPartIndex(partIndex + 1);
 
     setIsPlayingSound(Sound.status.PAUSED);
     setIsPlayingSound(Sound.status.PLAYING);
@@ -51,14 +50,14 @@ function App() {
   let statusText;
   if (isSessionEnd) statusText = <p>Session ended, good job!</p>;
   else if (isRelaxing) statusText = <p>Relax...</p>;
-  else statusText = <p>Activate {bodyParts[partIndex]} muscles</p>;
+  else statusText = <p>Activate {bodyParts[partIndex]}</p>;
 
   return (
     <StyledApp>
       <Sound url="beep.wav" playStatus={isPlayingSound} />
       <Timer
-        timeLeft={isRelaxing ? relaxingTime : activationTime}
-        allTimeLeft={bodyParts.length * (activationTime + relaxingTime + 2) - 1}
+        timeLeft={activationTime}
+        allTimeLeft={bodyParts.length * (activationTime + 1) - 1}
         onTimerStart={startSession}
         onTimerUpdate={onTimerUpdate}
         onTimerEnd={endSession}

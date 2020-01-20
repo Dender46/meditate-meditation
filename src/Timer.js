@@ -29,6 +29,7 @@ function Timer(props) {
 
     if (time === 0) {
       savedOnTimerUpdate.current();
+      setTime(props.timeLeft);
 
       if (allTime === 0) {
         turnOn(false);
