@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Sound from "react-sound";
 import styled from "styled-components";
 import Timer from "./Timer";
+import beepAudio from "./resources/beep.wav";
+import UIFx from "uifx";
 
 const bodyParts = [
   "forearm",
@@ -15,7 +16,7 @@ const bodyParts = [
   "eyebrows",
   "forehead"
 ];
-const activationTime = 10;
+const activationTime = 2;
 const relaxingTime = 15;
 
 const StyledApp = styled.div`
@@ -24,18 +25,23 @@ const StyledApp = styled.div`
   background: linear-gradient(20deg, rgb(219, 112, 147), rgb(218, 163, 87));
 `;
 
+const beep = new UIFx(
+  beepAudio,
+  {
+    volume: 1,
+    throttleMs: 100
+  }
+);
+
 function App() {
   const [isSessionEnd, setIsSessionEnd] = useState(false);
   const [partIndex, setPartIndex] = useState(0);
   const [isRelaxing, setIsRelaxing] = useState(false);
 
-  const [isPlayingSound, setIsPlayingSound] = useState(Sound.status.PAUSED);
-
   function onTimerUpdate() {
     setPartIndex(partIndex + 1);
 
-    setIsPlayingSound(Sound.status.PAUSED);
-    setIsPlayingSound(Sound.status.PLAYING);
+    beep.play();
   }
 
   function startSession() {
@@ -54,7 +60,6 @@ function App() {
 
   return (
     <StyledApp>
-      <Sound url="beep.wav" playStatus={isPlayingSound} />
       <Timer
         timeLeft={activationTime}
         allTimeLeft={bodyParts.length * (activationTime + 1) - 1}
